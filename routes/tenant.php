@@ -35,6 +35,9 @@ Route::middleware([
         Route::get('/{quiz}/edit', [QuizesController::class, 'edit'])->name('quizes.edit');
         Route::put('/{quiz}', [QuizesController::class, 'update'])->name('quizes.update');
         Route::delete('/{quiz}', [QuizesController::class, 'destroy'])->name('quizes.destroy');
+        // Route::get('/{link}', 'App\Http\Controllers\QuizController@showQuizByLink')->name('quizes.show');
+        Route::post('/{quiz}/subscribe', 'App\Http\Controllers\QuizesController@subscribe')->name('quizes.subscribe');
+        Route::get('/member/{link}', 'App\Http\Controllers\QuizesController@openSubscribedQuiz')->name('quizes.member');
     });
     Route::get('/members', [MembersController::class,'index'])->name('members');
 

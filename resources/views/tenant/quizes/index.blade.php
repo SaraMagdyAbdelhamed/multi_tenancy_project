@@ -1,6 +1,6 @@
 @extends('tenant.layouts.app')
 
-@section('title', 'Dashboard')
+@section('title', 'Quizes')
 
 @section('content')
 <div class="flex flex-col">
@@ -25,12 +25,22 @@
                     <td class="py-2 px-4 text-center">{{ $quiz->start_time }}</td>
                     <td class="py-2 px-4 text-center">{{ $quiz->end_time }}</td>
                     <td class="py-2 px-4 text-center">
+                        @auth
                         <a href="{{ route('quizes.edit', $quiz->id) }}" class="text-blue-500 hover:text-blue-700 mr-2">Edit</a>
                         <form action="{{ route('quizes.destroy', $quiz->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
                         </form>
+                        @endauth
+                        @auth('member')
+                            @unless(auth('member')->user()->memberQuizzes->contains('quiz_id', $quiz->id))
+                                <form action="{{ route('quizes.subscribe', $quiz) }}" method="POST">
+                                    @csrf
+                                    <button type="submit">Subscribe</button>
+                                </form>
+                            @endunless
+                        @endauth
                     </td>
                 </tr>
             @endforeach

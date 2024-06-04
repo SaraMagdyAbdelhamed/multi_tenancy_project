@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Member extends Authenticatable
 {
     protected $table = 'members';
-    
+
     protected $guard = 'member';
 
     protected $fillable = [
@@ -20,6 +20,11 @@ class Member extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function memberQuizzes()
+    {
+        return $this->hasMany(MemberQuiz::class, 'member_id');
+    }
 
     // Define any relationships or additional methods as needed
 }

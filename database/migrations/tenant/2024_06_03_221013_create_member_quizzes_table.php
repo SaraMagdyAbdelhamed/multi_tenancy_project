@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('score')->nullable();
             $table->boolean('passed')->default(false);
             $table->boolean('started')->default(false);
+            $table->string('link')->nullable();
             $table->timestamps();
 
             $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');

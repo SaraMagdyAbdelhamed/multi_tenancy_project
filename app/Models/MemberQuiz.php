@@ -10,8 +10,20 @@ class MemberQuiz extends Model
     protected $table = 'member_quizzes';
 
     protected $fillable = [
-        'member_id', 'quiz_id', 'score', 'passed', 'started',
+        'member_id', 'quiz_id', 'score', 'passed', 'started', 'link'
     ];
+
+    public function quiz()
+    {
+        return $this->belongsTo(Quiz::class);
+    }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+
 
     // Define any relationships or additional methods as needed
 }
