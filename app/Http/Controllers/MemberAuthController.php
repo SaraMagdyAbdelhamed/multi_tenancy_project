@@ -4,35 +4,47 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Member;
+use App\Http\Requests\tenant\MemberAuthRequest;
 class MemberAuthController extends Controller
 {
     public function showLoginForm()
     {
-        return view('member.login');
+        return view('tenant.authmembers.login');
     }
 
-    public function login(Request $request)
+    public function login(MemberAuthRequest $request)
     {
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
+        if (Auth::guard('member')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
-        if (Auth::guard('member')->attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        // if (Auth::guard('member')->attempt($credentials)) {
+        //     $request->session()->regenerate();
+        //     $member = Member::where('email',$request->email)->first();
+        //     Auth::guard('member')->login($member);
+        //     return redirect()->intended('/');
+        // }
+
+        // return back()->withErrors([
+        //     'email' => 'The provided credentials do not match our records.',
+        // ]);
+
+        // $request->authenticate();
+
+        // $request->session()->regenerate();
+
+        // return redirect()->intended('/');
     }
 
     public function showRegistrationForm()
     {
-        return view('member.register');
+        return view('tenant.authmembers.register');
     }
 
     public function register(Request $request)
@@ -51,15 +63,13 @@ class MemberAuthController extends Controller
 
         Auth::guard('member')->login($member);
 
-        return redirect('/dashboard');
+        return redirect('/');
     }
 
     public function logout(Request $request)
     {
         if (Auth::guard('member')->check()) {
             $member = Auth::guard('member')->user();
-            // Update the members table to mark the member as logged out
-            Member::where('id', $member->id)->update(['is_logged_in' => false]);
             Auth::guard('member')->logout();
         } else {
             Auth::logout();

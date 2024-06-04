@@ -10,6 +10,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Member extends Authenticatable
 {
     protected $table = 'members';
+    
+    protected $guard = 'member';
 
     protected $fillable = [
         'name', 'email', 'password',

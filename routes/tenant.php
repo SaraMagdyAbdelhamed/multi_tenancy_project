@@ -41,10 +41,10 @@ Route::middleware([
     // Member Authentication Routes
     Route::prefix('member')->group(function () {
         Route::get('login', 'App\Http\Controllers\MemberAuthController@showLoginForm')->name('member.login');
-        Route::post('login', 'App\Http\Controllers\MemberAuthController@login');
+        Route::post('login', 'App\Http\Controllers\MemberAuthController@login')->name('member.post_login');
         Route::post('logout', 'App\Http\Controllers\MemberAuthController@logout')->name('member.logout');
         Route::get('register', 'App\Http\Controllers\MemberAuthController@showRegistrationForm')->name('member.register');
-        Route::post('register', 'App\Http\Controllers\MemberAuthController@register');
+        Route::post('register', 'App\Http\Controllers\MemberAuthController@register')->name('member.post_register');
     });
 
     Route::middleware('guest')->group(function () {
