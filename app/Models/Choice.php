@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Stancl\Tenancy\Database\Concerns\BelongsToTenant;
+
 
 class Choice extends Model
 {
-    use BelongsToTenant;
+    protected $fillable = ['title', 'is_correct', 'order', 'description', 'explanation'];
 
-    public function question(): BelongsTo
+    public function question()
     {
         return $this->belongsTo(Question::class);
     }
