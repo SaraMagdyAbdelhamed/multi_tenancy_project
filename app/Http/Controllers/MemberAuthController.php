@@ -15,31 +15,17 @@ class MemberAuthController extends Controller
 
     public function login(MemberAuthRequest $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+       
         if (Auth::guard('member')->attempt(['email' => $request->email, 'password' => $request->password], $request->get('remember'))) {
 
             return redirect()->intended('/');
         }
 
-        // if (Auth::guard('member')->attempt($credentials)) {
-        //     $request->session()->regenerate();
-        //     $member = Member::where('email',$request->email)->first();
-        //     Auth::guard('member')->login($member);
-        //     return redirect()->intended('/');
-        // }
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
 
-        // return back()->withErrors([
-        //     'email' => 'The provided credentials do not match our records.',
-        // ]);
-
-        // $request->authenticate();
-
-        // $request->session()->regenerate();
-
-        // return redirect()->intended('/');
+        
     }
 
     public function showRegistrationForm()
