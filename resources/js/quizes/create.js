@@ -21,6 +21,12 @@ document.querySelector('.add-question').addEventListener('click', function () {
     questionDescriptionInput.placeholder = 'Enter question description';
     questionDescriptionInput.classList.add('border', 'border-gray-300', 'p-2', 'rounded', 'w-full');
 
+    const markInput = document.createElement('input');
+    markInput.type = 'number';
+    markInput.name = 'questions[' + (questionCount - 1) + '][mark]';
+    markInput.placeholder = 'Enter question mark';
+    markInput.classList.add('border', 'border-gray-300', 'p-2', 'rounded', 'w-full');
+
     const answersContainer = document.createElement('div');
     answersContainer.classList.add('mt-4', 'answers-container');
 
@@ -32,6 +38,7 @@ document.querySelector('.add-question').addEventListener('click', function () {
     question.appendChild(questionTitle);
     question.appendChild(questionInput);
     question.appendChild(questionDescriptionInput);
+    question.appendChild(markInput);
     question.appendChild(answersContainer);
     question.appendChild(addAnswerButton);
 

@@ -5,27 +5,28 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class MemberQuiz extends Model
+class QuizAttempt extends Model
 {
-    protected $table = 'member_quizzes';
+    use HasFactory;
 
     protected $fillable = [
-        'member_id', 'quiz_id', 'score', 'passed'
+        'quiz_id',
+        'member_id',
+        'attempt_number',
+        'score',
+        'passed',
+        'link'
     ];
 
+    // Define the relationship with the Quiz model
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);
     }
 
+    // Define the relationship with the Member model
     public function member()
     {
         return $this->belongsTo(Member::class);
     }
-
-    
-
-
-
-    // Define any relationships or additional methods as needed
 }

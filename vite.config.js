@@ -1,18 +1,15 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
+import { defineConfig } from 'vite'
+import laravel, { refreshPaths } from 'laravel-vite-plugin'
 
 export default defineConfig({
-  plugins: [
-    laravel({
-      input: [
-        'resources/css/app.css',
-        'resources/js/app.js',
-      ],
-      refresh: true,
-    }),
-  ],
-  
-  server: {
-    port: 3000, // Customize the port as per your preference
-  },
-});
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: [
+                ...refreshPaths,
+                'app/Http/Livewire/**',
+                'app/Tables/Columns/**',
+            ],
+        }),
+    ],
+})

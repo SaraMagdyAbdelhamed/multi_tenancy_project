@@ -29,6 +29,11 @@
             <input type="datetime-local" name="end_time" id="end_time" class="border border-gray-300 p-2 rounded">
         </div>
 
+        <div class="mb-4">
+            <label for="mark" class="block font-semibold">Quiz Mark:</label>
+            <input type="number" name="mark" id="mark" class="border border-gray-300 p-2 rounded">
+        </div>
+
         <div id="questions-container">
             <!-- Questions will be dynamically added here -->
         </div>

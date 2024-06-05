@@ -26,5 +26,10 @@ class Member extends Authenticatable
         return $this->hasMany(MemberQuiz::class, 'member_id');
     }
 
+    public function quizAttempts()
+    {
+        return $this->hasOne(QuizAttempt::class);
+    }
+
     // Define any relationships or additional methods as needed
 }

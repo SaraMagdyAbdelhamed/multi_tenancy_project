@@ -11,8 +11,8 @@
 
         <div class="question-list mt-8">
             <h2 class="text-2xl font-bold mb-4">Questions:</h2>
-            {{-- <form action="{{ route('quizzes.submit', $quiz) }}" method="POST">
-                @csrf --}}
+            <form action="{{ route('quizzes.submit', $quiz) }}" method="POST">
+                @csrf
                 @foreach ($questions as $question)
                     <div class="question mb-4">
                         <h3 class="text-xl font-bold">{{ $question->title }}</h3>
@@ -29,10 +29,10 @@
                     </div>
                  @endforeach
 
-                {{-- <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded mt-4">
+                <button type="submit" class="bg-green-500 text-white py-2 px-4 rounded mt-4">
                     Submit
                 </button> 
-            </form> --}}
+            </form>
         </div>
     </div>
 @endsection

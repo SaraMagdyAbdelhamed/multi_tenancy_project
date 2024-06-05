@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('member_quizzes', function (Blueprint $table) {
+        Schema::create('quiz_attempts', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('member_id');
             $table->unsignedBigInteger('quiz_id');
+            $table->unsignedBigInteger('member_id');
+            $table->unsignedInteger('attempt_number');
             $table->float('score')->nullable();
             $table->boolean('passed')->default(false);
+            $table->string('link')->nullable();
             $table->timestamps();
-
-            $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');
-            $table->foreign('quiz_id')->references('id')->on('quizzes')->onDelete('cascade');
+            
+            // Add foreign key constraints if necessary
+            $table->foreign('quiz_id')->references('id')->on('quizzes');
+            $table->foreign('member_id')->references('id')->on('members');
         });
     }
 
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('member_quizzes');
+        Schema::dropIfExists('quiz_attempts');
     }
 };

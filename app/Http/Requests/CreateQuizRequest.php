@@ -24,11 +24,13 @@ class CreateQuizRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'mark' => 'required',
             'start_time' => 'nullable|date',
             'end_time' => 'nullable|date|after:start_time',
             'questions' => 'required|array|min:1',
             'questions.*.title' => 'required|string|max:255',
             'questions.*.description' => 'nullable|string',
+            'questions.*.mark' => 'required',
             'questions.*.choices' => 'required|array|min:2',
             'questions.*.choices.*.title' => 'required|string|max:255',
             'questions.*.choices.*.is_correct' => 'required',

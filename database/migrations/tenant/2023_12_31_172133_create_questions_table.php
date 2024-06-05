@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('slug')->unique();
+            $table->integer('mark')->default(0);
             $table->string('description')->nullable()->default(null);
             $table->timestamps();
         });

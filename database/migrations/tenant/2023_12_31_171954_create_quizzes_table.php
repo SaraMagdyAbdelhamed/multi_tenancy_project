@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('description')->nullable()->default(null);
             $table->timestamp('start_time')->nullable();
              $table->timestamp('end_time')->nullable();
+             $table->integer('mark')->default(0);
              $table->enum('type', [1, 2])->nullable()->comment('1: in-time quiz, 2: out-time quiz');
             $table->timestamps();
         });

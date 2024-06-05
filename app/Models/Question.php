@@ -13,8 +13,12 @@ class Question extends Model
 {
     use HasSlug;
 
-    protected $fillable = ['title', 'slug', 'description'];
+    protected $fillable = ['title', 'slug', 'description','mark'];
 
+    protected $casts = [
+        'mark' => 'integer',
+    ];
+    
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);

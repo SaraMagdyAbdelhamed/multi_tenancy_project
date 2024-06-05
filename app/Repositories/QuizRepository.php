@@ -9,7 +9,7 @@ class QuizRepository
     {
         return Quiz::all();
     }
-    
+
     public function create(array $data)
     {
         return Quiz::create($data);

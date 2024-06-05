@@ -12,7 +12,11 @@ class Quiz extends Model
 {
     use HasSlug;
 
-    protected $fillable = ['title', 'slug', 'description', 'start_time', 'end_time'];
+    protected $fillable = ['title', 'slug', 'description', 'start_time', 'end_time','mark'];
+
+    protected $casts = [
+        'mark' => 'integer',
+    ];
 
     public function questions()
     {
@@ -24,5 +28,15 @@ class Quiz extends Model
         return SlugOptions::create()
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
+    }
+
+    public function quizAttempts()
+    {
+        return $this->hasOne(QuizAttempt::class);
+    }
+
+    public function memberQuiz()
+    {
+        return $this->hasMany(MemberQuiz::class);
     }
 }

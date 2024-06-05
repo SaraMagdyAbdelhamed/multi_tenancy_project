@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TenantController;
+use App\Http\Controllers\CentralDashboardController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,7 +14,7 @@ use App\Http\Controllers\TenantController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/', 'CentralDashboardController@index')->name('central.dashboard');
+Route::get('/', [CentralDashboardController::class,'index'])->name('central.dashboard');
 // Route::get('/', function () {
 //     return view('welcome');
 // });

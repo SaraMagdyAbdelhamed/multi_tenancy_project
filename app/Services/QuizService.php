@@ -27,7 +27,8 @@ class QuizService
             'description' => $validatedData['description'],
             'start_time' => $validatedData['start_time'],
             'end_time' => $validatedData['end_time'],
-            'type' => $type
+            'type' => $type,
+            'mark' => $validatedData['mark']
         ]);
     }
 

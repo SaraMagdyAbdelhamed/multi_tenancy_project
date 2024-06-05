@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Member;
 use App\Http\Requests\tenant\MemberAuthRequest;
+use Illuminate\Support\Facades\Hash;
 class MemberAuthController extends Controller
 {
     public function showLoginForm()
@@ -44,26 +45,24 @@ class MemberAuthController extends Controller
         $member = Member::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
-            'password' => bcrypt($validatedData['password']),
+            'password' => Hash::make($validatedData['password']),
         ]);
 
         Auth::guard('member')->login($member);
 
-        return redirect('/');
+        return redirect()->intended('/');
     }
 
     public function logout(Request $request)
     {
-        if (Auth::guard('member')->check()) {
-            $member = Auth::guard('member')->user();
-            Auth::guard('member')->logout();
-        } else {
-            Auth::logout();
-        }
+        
+           
+        Auth::guard('member')->logout();
+       
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->intended('/');
     }
 }

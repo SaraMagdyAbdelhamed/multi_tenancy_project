@@ -12,14 +12,21 @@
             <h1 class="text-2xl font-semibold text-gray-800">Welcome, {{  tenant('name') }}</h1>
                  @php
                     $isGuest = auth()->guard('member')->guest() && auth()->guard('web')->guest();
-                    $auth = auth()->guard('member') || auth()->guard('web');
+                    $auth = ! $isGuest;
                 @endphp
-                @if($auth)
-                    <form action="{{ route('member.logout') }}" method="POST">
+                @auth('member')
+                <form action="{{ route('member.logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="text-blue-500">Logout</button>
+                </form>
+                @endauth
+                @auth('web')
+                    <form action="{{ route('admin.logout') }}" method="POST">
                         @csrf
                         <button type="submit" class="text-blue-500">Logout</button>
                     </form>
-                @endif
+                @endauth
+                
         </div>
     </header>
     <nav class="bg-gray-200 py-4 px-6">
@@ -36,10 +43,10 @@
                 <li><a href="{{ route('tenant.dashboard') }}" class="text-gray-700 font-semibold">Dashboard</a></li>
                 <li><a href="{{ route('quizes') }}" class="text-gray-700 font-semibold">Quizes</a></li>
                 @endauth
-                @auth
+                @auth('web')
                 <li><a href="{{ route('tenant.dashboard') }}" class="text-gray-700 font-semibold">Dashboard</a></li>
                 <li><a href="{{ route('quizes') }}" class="text-gray-700 font-semibold">Quizes</a></li>
-                <li><a href="{{ route('members') }}" class="text-gray-700 font-semibold">Members</a></li>
+                <li><a href="{{ route('members.index') }}" class="text-gray-700 font-semibold">Members</a></li>
                 @endauth
             </ul>
         </div>
