@@ -10,4 +10,10 @@ use Stancl\Tenancy\Database\Concerns\HasDomains;
 class Tenant extends BaseTenant implements TenantWithDatabase
 {
     use HasDatabase, HasDomains;
+
+    public function getDatabaseName()
+    {
+        // Return the name of the database associated with the tenant
+        return $this->database_name;
+    }
 }

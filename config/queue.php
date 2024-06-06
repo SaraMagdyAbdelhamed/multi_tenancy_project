@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'sync'),
+    'default' => env('QUEUE_CONNECTION', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -37,10 +37,11 @@ return [
         'database' => [
             'driver' => 'database',
             'table' => 'jobs',
+            'connection' => 'central', // Replace with your non-tenant database connection name
             'queue' => 'default',
             'retry_after' => 90,
-            'after_commit' => false,
         ],
+    
 
         'beanstalkd' => [
             'driver' => 'beanstalkd',
@@ -69,6 +70,12 @@ return [
             'retry_after' => 90,
             'block_for' => null,
             'after_commit' => false,
+        ],
+
+        'failed' => [
+            'driver' => 'database',
+            'database' => 'central', // Replace with your non-tenant database connection name
+            'table' => 'failed_jobs',
         ],
 
     ],

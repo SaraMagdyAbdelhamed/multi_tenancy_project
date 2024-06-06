@@ -170,6 +170,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Providers\TenancyServiceProvider::class,
+        Illuminate\Queue\QueueServiceProvider::class,
     ])->toArray(),
 
     /*

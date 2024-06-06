@@ -9,6 +9,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\QuizesController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Jobs\ExportQuizResults;
 // use App\Http\Middleware\TenantsMiddleware;
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,13 @@ Route::middleware([
         Route::get('/member/{link}', 'App\Http\Controllers\QuizSubscribionsController@openSubscribedQuiz')->name('quizes.member');
         Route::post('/{quiz}/submit', 'App\Http\Controllers\QuizSubscribionsController@submit')->name('quizzes.submit');
         Route::get('/{quiz}/result', 'App\Http\Controllers\QuizSubscribionsController@quizAllResults')->name('quizes.result');
+        
+
+        Route::get('/export-quiz-results', function () {
+            ExportQuizResults::dispatch();
+
+            return 'Export job dispatched!';
+        })->name('quiz.export');
     });
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('admin.logout');

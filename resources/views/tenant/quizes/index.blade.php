@@ -35,6 +35,7 @@
                             <button type="submit" class="text-red-500 hover:text-red-700">Delete</button>
                         </form>
                         <a href="{{ route('quizes.result', $quiz) }}" class="text-purple-500 hover:text-purple-700 ml-2">Quiz Results</a>
+                        <a href="{{ route('quiz.export') }}" class="text-purple-500 hover:text-purple-700 ml-2">Export Quiz Results</a>
                         @endauth
                         @auth('member')
                             @php
