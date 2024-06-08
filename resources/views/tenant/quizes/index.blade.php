@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="flex flex-col">
-    @auth
+    @auth('web')
     <div class="mt-6 mb-2">
         <a href="{{ route('quizes.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ">Create New Quiz</a>
     </div>
@@ -46,7 +46,7 @@
                             @else
                                 Not attempted yet
                             @endif
-                            @unless(auth('member')->user()->quizAttempts->where('quiz_id', $quiz->id))
+                            @unless(auth('member')->user()->quizAttempts()->where('quiz_id', $quiz->id)->first())
                                 <form action="{{ route('quizes.subscribe', $quiz) }}" method="POST">
                                     @csrf
                                     <button type="submit">Subscribe</button>

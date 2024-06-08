@@ -14,6 +14,7 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "league/csv": "^9.16",
+        "spatie/laravel-google-calendar": "^3.8",
         "spatie/laravel-sluggable": "^3.6",
         "stancl/tenancy": "^3.7"
     },

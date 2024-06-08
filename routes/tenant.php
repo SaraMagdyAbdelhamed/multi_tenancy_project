@@ -10,6 +10,7 @@ use App\Http\Controllers\QuizesController;
 use App\Http\Controllers\MembersController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Jobs\ExportQuizResults;
+use Illuminate\Support\Facades\Log;
 // use App\Http\Middleware\TenantsMiddleware;
 /*
 |--------------------------------------------------------------------------
@@ -22,12 +23,15 @@ use App\Jobs\ExportQuizResults;
 | Feel free to customize them however you want. Good luck!
 |
 */
-
 Route::middleware([
     'web',
     InitializeTenancyBySubdomain::class,
     PreventAccessFromCentralDomains::class,
 ])->group(function () {
+    // Route::get('/example-route', function () {
+    //     Log::info('This is a log message from the tenant.php route file');
+    //     return 'Example Route';
+    // });
     Route::get('/', [DashboardController::class,'index'])->name('tenant.dashboard');
     Route::middleware('auth:web,member')->group(function () {
     Route::prefix('quizes')->group(function () {
@@ -42,12 +46,12 @@ Route::middleware([
         Route::get('/member/{link}', 'App\Http\Controllers\QuizSubscribionsController@openSubscribedQuiz')->name('quizes.member');
         Route::post('/{quiz}/submit', 'App\Http\Controllers\QuizSubscribionsController@submit')->name('quizzes.submit');
         Route::get('/{quiz}/result', 'App\Http\Controllers\QuizSubscribionsController@quizAllResults')->name('quizes.result');
-        
+        Route::get('/startQuiz/{link}', 'App\Http\Controllers\QuizSubscribionsController@startQuiz')->name('quizes.startQuiz');
 
         Route::get('/export-quiz-results', function () {
-            ExportQuizResults::dispatch();
+            ExportQuizResults::dispatch()->onQueue('high')->delay(now()->addMinutes(1));
 
-            return 'Export job dispatched!';
+            return redirect()->route('quizes')->message('success','Exported file successfully');
         })->name('quiz.export');
     });
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])

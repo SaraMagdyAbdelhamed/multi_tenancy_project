@@ -15,7 +15,7 @@ class QuizAttempt extends Model
         'attempt_number',
         'score',
         'passed',
-        'link'
+        'link', 'time_taken', 'start_time'
     ];
 
     // Define the relationship with the Quiz model

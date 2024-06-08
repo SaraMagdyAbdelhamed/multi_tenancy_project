@@ -21,6 +21,7 @@ class QuizService
     {
         // Determine the type based on the start and end dates
         $type = ($validatedData['start_time'] && $validatedData['end_time']) ? 1 : 2;
+      
 
         return $this->quizRepository->create([
             'title' => $validatedData['title'],

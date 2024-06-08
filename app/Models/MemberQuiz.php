@@ -10,7 +10,7 @@ class MemberQuiz extends Model
     protected $table = 'member_quizzes';
 
     protected $fillable = [
-        'member_id', 'quiz_id', 'score', 'passed'
+        'member_id', 'quiz_id', 'score', 'passed', 'time_taken'
     ];
 
     public function quiz()

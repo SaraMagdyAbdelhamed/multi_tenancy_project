@@ -15,6 +15,8 @@ class ExportQuizResults implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $priority = 1; // Set the default priority level
+
     public function handle()
     {
             $quizAttempts = QuizAttempt::all();

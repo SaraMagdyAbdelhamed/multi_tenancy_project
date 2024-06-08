@@ -44,7 +44,7 @@
     <div class="container">
         <h1>Welcome, {{ $memberName }}!</h1>
         <p>This is the link for your exam:</p>
-        <p><a href="{{ $uniqueLink }}" class="link-button">{{ $uniqueLink }}</a></p>
+        <p><a href="{{ $uniqueLink }}" class="link-button">Take the Quiz</a></p>
     </div>
 </body>
 </html>

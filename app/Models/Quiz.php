@@ -11,11 +11,14 @@ use Spatie\Sluggable\SlugOptions;
 class Quiz extends Model
 {
     use HasSlug;
+    use HasFactory;
 
-    protected $fillable = ['title', 'slug', 'description', 'start_time', 'end_time','mark'];
+    protected $fillable = ['title', 'slug', 'description', 'start_time', 'end_time','mark','type'];
 
     protected $casts = [
         'mark' => 'integer',
+        'start_time' => 'date',
+        'end_time' => 'date',
     ];
 
     public function questions()

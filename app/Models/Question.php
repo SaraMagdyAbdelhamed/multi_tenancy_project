@@ -12,13 +12,14 @@ use Spatie\Sluggable\SlugOptions;
 class Question extends Model
 {
     use HasSlug;
+    use HasFactory;
 
     protected $fillable = ['title', 'slug', 'description','mark'];
 
     protected $casts = [
         'mark' => 'integer',
     ];
-    
+
     public function quiz()
     {
         return $this->belongsTo(Quiz::class);

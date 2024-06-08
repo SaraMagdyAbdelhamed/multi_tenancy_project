@@ -17,6 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('quiz_id');
             $table->float('score')->nullable();
             $table->boolean('passed')->default(false);
+            $table->time('time_taken')->nullable();
             $table->timestamps();
 
             $table->foreign('member_id')->references('id')->on('members')->onDelete('cascade');

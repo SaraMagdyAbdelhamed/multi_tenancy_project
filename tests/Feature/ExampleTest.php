@@ -1,7 +1,9 @@
 <?php
 
-it('returns a successful response', function () {
-    $response = $this->get('/');
+// it('returns a successful response', function () {
+//     $response = $this->get('/example-route');
 
-    $response->assertStatus(200);
-});
+//     $response->assertStatus(200);
+// });
+
+

@@ -12,7 +12,7 @@ use App\Models\Choice;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SubscriptionLinkEmail;
 use App\Mail\QuizResult;
-
+use Spatie\GoogleCalendar\Event;
 
 class QuizSubscribionsController extends Controller
 {
@@ -29,12 +29,26 @@ class QuizSubscribionsController extends Controller
         ]);
 
         $memberQuiz->save();
+        // $this->syncWithGoogleCalender($quiz);
         // Send the subscription link email to the member
         $member = auth()->guard('member')->user();
         $fullRoute = route('quizes.member', ['link' => $uniqueLink]);
-        Mail::to($member->email)->send(new SubscriptionLinkEmail($member->name, $fullRoute));
+        Mail::to($member->email)->queue(new SubscriptionLinkEmail($member->name, $fullRoute));
 
         return redirect()->route('quizes')->with('success', 'Member subscribed successfully.');
+    }
+
+    private function syncWithGoogleCalender(Quiz $quiz)
+    {
+       
+        $event = new Event;
+
+        $event->name = 'Quiz Time For : '. $quiz->title;
+        $event->startDateTime = $quiz->start_time;
+        $event->endDateTime =  $quiz->end_time;
+        $event->email = auth('member')->user()->email;
+
+        $event->save();
     }
 
     public function openSubscribedQuiz($link)
@@ -44,9 +58,30 @@ class QuizSubscribionsController extends Controller
         // Check if the member is authorized to access the quiz
         if ($memberQuiz && $memberQuiz->member_id == auth()->guard('member')->id()) {
             $quiz = $memberQuiz->quiz;
-            if ($quiz->type == 1 && now() < $quiz->start_date) {
+            if ($quiz->type == 1 && now() < $quiz->start_time) {
                 return redirect()->route('quizes')->with('error', 'This quiz is not yet available.');
             }
+            
+
+            return view('tenant.quizes.startQuiz', compact('link'));
+        } else {
+            // Redirect or show an error message if the member is not authorized
+            return redirect()->route('quizes')->with('error', 'You are not authorized to access this quiz.');
+        }
+
+    }
+
+    public function startQuiz($link)
+    {
+        $memberQuiz = QuizAttempt::where('link', $link)->first();
+         // Check if the member is authorized to access the quiz
+         if ($memberQuiz && $memberQuiz->member_id == auth()->guard('member')->id()) {
+            $quiz = $memberQuiz->quiz;
+            if ($quiz->type == 1 && now() < $quiz->start_time) {
+                return redirect()->route('quizes')->with('error', 'This quiz is not yet available.');
+            }
+            $memberQuiz->start_time = now();
+            $memberQuiz->save();
 
             $questions = $quiz->questions()->with('choices')->get();
 
@@ -88,6 +123,11 @@ class QuizSubscribionsController extends Controller
         $quizAttempt->score = $memberMark;
         $quizAttempt->passed = $memberMark > $quiz->mark / 2 ?  1 : 0;
         $quizAttempt->attempt_number += 1; // Increment the attempt number
+        $startTime = $quizAttempt->start_time;
+        $endTime = now();
+        $timeTaken = $endTime->diffInSeconds($startTime); // Calculate the time taken in seconds
+
+        $quizAttempt->time_taken = $timeTaken;
         $quizAttempt->save();
 
         $result['score'] = $memberMark;

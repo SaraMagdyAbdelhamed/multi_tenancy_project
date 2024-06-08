@@ -24,8 +24,8 @@ return new class extends Migration
             $table->timestamps();
             
             // Add foreign key constraints if necessary
-            $table->foreign('quiz_id')->references('id')->on('quizzes');
-            $table->foreign('member_id')->references('id')->on('members');
+            // $table->foreign('quiz_id')->references('id')->on('quizzes');
+            // $table->foreign('member_id')->references('id')->on('members');
         });
     }
 
