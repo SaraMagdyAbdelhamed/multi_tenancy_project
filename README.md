@@ -1,76 +1,99 @@
-Assignment Blueprint for backend
-===============================
+Multi-Tenant Quiz Application
+==================
+This application is a multi-tenant quiz platform that allows you to serve multiple clients with a single codebase
 
-This is a Laravel blueprint for backend development, for creating a multi-tenant application **(single database)** to manage quizzes
+# Requirements
+PHP 8.1 or higher
+Composer 2.3.10
+node 18.17.0
+npm 9.8.1
 
-## Installation
-- clone this repository `git clone git@github.com:msaaqcom/assignment-blueprint-backend.git quiz`
-- edit origin to make new one for your custom repository in Github `git remote set-url origin` and add your repository url 
-- cd into the project directory `cd quiz`
-- run `composer install`
-- run `cp .env.example .env`
-- run migration `php artisan migrate`
-- serve the application `php artisan serve` or use laravel valet, or any other server
-- visit the application in your browser `http://quiz.test` if you are using valet
+============
+# Installation
 
-## Multi-tenancy
-This application is multi-tenant, meaning that it can serve multiple clients with a single codebase. To achieve this, we use the [tenancyforlaravel](https://tenancyforlaravel.com/) package. The package is already installed and configured.
+* clone this repository git clone https://github.com/SaraMagdyAbdelhamed/multi_tenancy_project.git quiz
+* cd into the project directory cd quiz
+* run composer install
+* run npm install and npm run dev
+* Rename the .env.example file to .env and update the configuration values, including database settings and any other required environment variables.
+* run migration php artisan migrate
+* serve the application php artisan serve or use laravel valet, or any other server , I use laragon on windwos 
+* visit the application in your browser http://quiz.test if you are using valet
+* Run the application locally by executing php artisan serve
 
-## Available models
-- Tenant
-- User
-- Quiz
-- Question
-- Choice
+***** Important If you run in WINDOWS 
+- edit hosts file permission to write so project can edit it when creates new tenants 
+==============
+# Testing
+for run the test cases you need
+* commit middleware in tenant.php file 
+ [InitializeTenancyBySubdomain::class,
+ PreventAccessFromCentralDomains::class ]
+* change APP_ENV=local to be APP_ENV=testing 
+* run php artisan optimize in cmd
+* run php artisan test
+* Tests Done ( Member registration , Admin Login To dashboard , Create Quiz By Admin , Show All Quizzes )
 
->Note: you should create missing models, and migrations if needed, or any needed changes to the existing models.
+============================
+# # ROUTES 
+* Tenant Registration
+To register a new tenant, send a POST request to the following endpoint:
 
-## Your Tasks
+POST /tenant/register
+The request body should contain the following information:
+{
+  "name": "Tenant Name",
+  "email": "tenant@example.com",
+  "password": "password",
+  "domain": "test"
+}
 
-### Main Tasks
-- Ability to register a new tenant.
-- Ability to create a new quiz with two types for (in-time quiz, and out-of-time quiz).
-    >Note: in-time quiz is a quiz that has a start time, and end time, and the user can take the quiz only between these times. out-of-time quiz is a quiz that has no start time, and end time, and the user can take the quiz anytime.
-- Ability to manage questions.
-- Ability to manage choices.
-- Ability to register new accounts for a tenant members
-  >Note: members should be in separated table from the tenant owner(users).
-- Ability to login/logout for a tenant member.
-- Ability to subscribe to a quiz for a member.
-- Ability to integrate with Google calendar, and add a quiz (starts/ends time) to the calendar for a member.
-- Ability to remind a member to take a quiz before the quiz starts time.
-- Ability to add attempts for a quiz for a member.
-- Ability to take a quiz using a unique link for every member by only email, and send the link to email.
-- Ability to view the result of a quiz after taking it.
-- Ability to email the member after taking the quiz with the result of the quiz, and the correct answers.
-- Ability to email the owner of the tenant after a client takes a quiz.
-- Ability to view quiz results for all members by tenant owner, you can use [filament](https://filamentphp.com/) for this [bonus point].
-- Ability to export quiz results for all members by tenant owner to csv with filters by using queues.
-    >Note: use seeders to create dummy data for exporting. minimum 20000 records.
-- Ability to view dashboards for:
-  - Number of members
-  - Attempts
-  - Pass rate
-  - Fail rate
-  - Average score
-  - Average time (for in-time quiz)
-- Create a REST API for the application, and document it using [Postman](https://www.postman.com/).
-- Write tests for the application using [pest](https://pestphp.com/), already installed.
-- write stress testing for the application using [pest](https://pestphp.com/) [bonus point].
-- Write a `README.md` file for the application, explaining how to setup and run the application, and how to use the REST API with example for every endpoint.
-- Write a `CHANGELOG.md` file for the application, explaining the changes you made to the application, and the new features you added.
+This will create subdomain under you parent domain 
+example  (test.quiz.test)
 
-### Devops Tasks
-- Dockerize the application
-- Setup a CI/CD pipeline for the application using GitHub actions
-- Deploy the application to a server of your choice [bonus point]
+----------------
+* Quiz Management
+The application provides several routes for managing quizzes. Here are some of the available routes:
 
-## Points to consider
-- Use queues for sending emails, and other heavy tasks you may have [show your knowledge/skills of queues].
-- Use queues priority for organizing queues jobs/tasks [bonus point].
-- Make sure to use the correct relationships between models, and use the correct database structure.
-- Write a clean code, and follow the best practices.
-- Write a clean commit messages.
+GET /quizes: Get a list of all quizzes.
+GET /quizes/create: Show the form to create a new quiz.
+POST /quizes: Store a new quiz in the database.
+GET /quizes/{quiz}/edit: Show the form to edit an existing quiz.
+PUT /quizes/{quiz}: Update the details of an existing quiz.
+DELETE /quizes/{quiz}: Delete a quiz from the database.
+GET /quizes/export-quiz-results: Export quiz results to a file. This route dispatches a job to export the quiz results in the background. The exported file will be available for download after a delay of 1 minute.
 
-## Notes
-- You can use [tailwindcss](https://tailwindcss.com/) for the frontend, with its free UI kit [tailwindui](https://tailwindui.com/).
+GET /quizes/{quiz}/result : show result of qll members in quiz ( this was done by filament )
+-----------------------
+
+* Member Registration and Authentication
+Members can register and log in to access the quiz platform. Here are some of the available routes for member registration and authentication:
+
+GET /member/login: Show the login form for members.
+POST /member/login: Log in a member with the provided credentials.
+GET /member/register: Show the registration form for members.
+POST /member/register: Register a new member in the database.
+POST /member/logout: Log out the authenticated member.
+-----------------
+* Members 
+
+GET /members: Get a list of all members.
+GET /members/create: Show the form to create a new member.
+POST /members: Store a new member in the database.
+GET /members/{member}/edit: Show the form to edit an existing member.
+PUT /members/{member}: Update the details of an existing member.
+DELETE /members/{member}: Delete a member from the database.
+
+----------------
+* Admin login and logout 
+POST /logout: Log out the authenticated user (admin).
+GET /login : show login form for admin 
+POST /login : post login data 
+
+-------------------
+* Members Subscribe To Quiz
+POST /quizes/{quiz}/subscribe : subscribe to quiz 
+GET /quizes/member/{link} : open quiz link that has start quiz button 
+GET /quizes/startQuiz/{link} : start quiz
+POST /quizes/{quiz}/submit : submit quiz result
+
