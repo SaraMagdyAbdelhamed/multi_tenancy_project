@@ -19,7 +19,6 @@ npm 9.8.1
 * run migration php artisan migrate
 * serve the application php artisan serve or use laravel valet, or any other server , I use laragon on windwos 
 * visit the application in your browser http://quiz.test if you are using valet
-* Run the application locally by executing php artisan serve
 
 ***** Important If you run in WINDOWS 
 - edit hosts file permission to write so project can edit it when creates new tenants 
