@@ -8,17 +8,17 @@ This application is a multi-tenant quiz platform that allows you to serve multip
 The application consists of the following models:
 
 # Central Database
-Tenant => To Handle tenant data such as id , name , email of user , database name
-domains => To handle domains for each tenant 
+* Tenant => To Handle tenant data such as id , name , email of user , database name
+* domains => To handle domains for each tenant 
 
 # Tenant Database
-User => Has Admins Data
-Member => Has Members Data
-Quiz => Quizes That Members can subscribe and submit
-Question => Related to Quiz 
-Choice => Related To Question 
-MemberQuiz => Has each attempts member has for quiz
-QuizAttempt => Has last attempt data and number of attempts that member has for quiz
+* User => Has Admins Data
+* Member => Has Members Data
+* Quiz => Quizes That Members can subscribe and submit
+* Question => Related to Quiz 
+* Choice => Related To Question 
+* MemberQuiz => Has each attempts member has for quiz
+* QuizAttempt => Has last attempt data and number of attempts that member has for quiz
 
 
 =============================
